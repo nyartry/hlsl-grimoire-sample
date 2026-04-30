@@ -60,7 +60,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     //////////////////////////////////////
     // 初期化を行うコードを書くのはここまで！！！
     //////////////////////////////////////
-    auto& renderContext = g_graphicsEngine->GetRenderContext();
+    RenderContext& renderContext = g_graphicsEngine->GetRenderContext();
 
     // ここからゲームループ
     while (DispatchWindowMessage())

@@ -84,11 +84,11 @@ void MeshParts::CreateDescriptorHeaps()
 				}
 			}
 			srvNo += NUM_SRV_ONE_MATERIAL;
-			m_descriptorHeap.RegistConstantBuffer(cbNo, m_commonConstantBuffer);
+			m_descriptorHeap.RegistConstantBuffer(cbNo, m_commonConstantBuffer);//必須のWVP（ World / View / Projection 行列 ）のバッファをレジスタに登録
 			if (m_expandConstantBuffer.IsValid()) {
-				m_descriptorHeap.RegistConstantBuffer(cbNo + 1, m_expandConstantBuffer);
+				m_descriptorHeap.RegistConstantBuffer(cbNo + 1, m_expandConstantBuffer);//拡張の情報をバッファに登録
 			}
-			cbNo += NUM_CBV_ONE_MATERIAL;
+			cbNo += NUM_CBV_ONE_MATERIAL;//必須と拡張の分で２を足す。
 		}
 	}
 	m_descriptorHeap.Commit();
