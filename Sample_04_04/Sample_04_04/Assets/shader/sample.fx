@@ -113,8 +113,8 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 
     // step-9 拡散反射光と鏡面反射光を足し算して、最終的な光を求める
 	float3 lig = diffuseLig + specularLig + ambientLight;
-	float4 finalColor = g_texture.Sample(g_sampler, psIn.uv);
-
+	//float4 finalColor = g_texture.Sample(g_sampler, psIn.uv);
+	float4 finalColor = float4(1.0f, 0.0f, 0.0f, 1.0f);
     // step-10 テクスチャカラーに求めた光を乗算して最終出力カラーを求める
 	finalColor.xyz *= lig;
 

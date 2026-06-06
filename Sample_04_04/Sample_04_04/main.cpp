@@ -35,8 +35,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     // ここから初期化を行うコードを記述する
     //////////////////////////////////////
 
-    g_camera3D->SetPosition({ 0.0f, 0.0f, 100.0f });
-    g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });
+    g_camera3D->SetPosition({ 0.0f, 50.0f, 100.0f });
+
+    //g_camera3D->SetPosition({ 0.0f, 0.0f, 100.0f });
+    //g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });
 
     // ライトのデータを作成する
     Light light;
@@ -55,14 +57,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     // 視点の位置を設定する
     light.eyePos = g_camera3D->GetPosition();
 
-    light.ambientLight.x = 0.9f;
-    light.ambientLight.y = 0.9f;
-    light.ambientLight.z = 0.9f;
+    light.ambientLight.x = 0.2f;
+    light.ambientLight.y = 0.2f;
+    light.ambientLight.z = 0.2f;
 
     // モデルを初期化する
     // モデルを初期化するための情報を構築する
     ModelInitData modelInitData;
-    modelInitData.m_tkmFilePath = "Assets/modelData/teapot.tkm";
+    modelInitData.m_tkmFilePath = "Assets/modelData/sample.tkm";
 
     // 使用するシェーダーファイルパスを設定する
     modelInitData.m_fxFilePath = "Assets/shader/sample.fx";
