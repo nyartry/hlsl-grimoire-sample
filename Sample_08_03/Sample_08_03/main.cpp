@@ -46,11 +46,28 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// step-1 加算合成の設定で描画する
 	spriteInitData.m_alphaBlendMode = AlphaBlendMode_Add;
 
+	const int NUM_SPRITE = 10;
+	const Vector3 spritePosition[NUM_SPRITE] = {
+		{  32.0f,   0.0f, 0.0f },
+		{  26.0f,  19.0f, 0.0f },
+		{  10.0f,  30.0f, 0.0f },
+		{ -10.0f,  30.0f, 0.0f },
+		{ -26.0f,  19.0f, 0.0f },
+		{ -32.0f,   0.0f, 0.0f },
+		{ -26.0f, -19.0f, 0.0f },
+		{ -10.0f, -30.0f, 0.0f },
+		{  10.0f, -30.0f, 0.0f },
+		{  26.0f, -19.0f, 0.0f },
+	};
+
 	// Spriteクラスのオブジェクトを定義して初期化する
-	Sprite test2D;
+	Sprite test2D[NUM_SPRITE];
 
 	// Init()に初期化オブジェクトを渡して初期化する
-	test2D.Init(spriteInitData);
+	for (int i = 0; i < NUM_SPRITE; i++) {
+		test2D[i].Init(spriteInitData);
+		test2D[i].Update(spritePosition[i], g_quatIdentity, g_vec3One, { 0.5f, 0.5f });
+	}
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -69,8 +86,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//背景モデルをドロー
 		bgModel.Draw(renderContext);
 
-		// スプライトのドローコールを実行する
-		test2D.Draw(renderContext);
+		// スプライトを少しずつずらして重ねて描画する
+		for (int i = 0; i < NUM_SPRITE; i++) {
+			test2D[i].Draw(renderContext);
+		}
 
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
