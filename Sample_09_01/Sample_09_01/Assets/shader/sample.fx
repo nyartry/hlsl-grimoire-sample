@@ -41,7 +41,7 @@ float4 PSMain(PSInput In) : SV_Target0
 {
 	float4 color = colorTexture.Sample(Sampler, In.uv);
 
-    // step-5 ワイプサイズの値に応じてピクセルをクリップする
+    // step-5 ワイプサイズの値に応じてピクセルをクリップする（ピクセルキルというとのこと）
 	clip(In.pos.x - wipeSize);
 
 	return color;

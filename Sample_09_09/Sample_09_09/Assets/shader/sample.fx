@@ -45,7 +45,7 @@ float4 PSMain(PSInput In) : SV_Target0
 	negaColor.x = 1.0f - color.x;
 	negaColor.y = 1.0f - color.y;
 	negaColor.z = 1.0f - color.z;
-
+	
     // ネガポジ率を使って徐々にネガポジ画像にしていく
 	color.xyz = lerp(color, negaColor, negaRate);
 

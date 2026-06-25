@@ -56,6 +56,7 @@ sampler g_sampler : register(s0);
 SPSIn VSMain(SVSIn vsIn)
 {
 	SPSIn psIn;
+	//WVP変換
 	psIn.pos = mul(mWorld, vsIn.pos);
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
