@@ -94,31 +94,37 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
         // レンダリングターゲットとして利用できるまで待つ
         renderContext.WaitUntilToPossibleSetRenderTargets(1, rtArray);
+        //renderContext.WaitUntilToPossibleSetRenderTarget(offscreenRenderTarget);//別にこれでも良かったんじゃない？
 
-        // レンダリングターゲットを設定
-        renderContext.SetRenderTargets(1, rtArray);
+        {
+            // レンダリングターゲットを設定
+            renderContext.SetRenderTargets(1, rtArray);
 
-        // レンダリングターゲットをクリア
-        renderContext.ClearRenderTargetViews(1, rtArray);
+            // レンダリングターゲットをクリア
+            renderContext.ClearRenderTargetViews(1, rtArray);
 
-        // offscreenRenderTargetに各種モデルを描画する
-        // 背景モデルをドロー
-        bgModel.Draw(renderContext);
+            // offscreenRenderTargetに各種モデルを描画する
+            // 背景モデルをドロー
+            bgModel.Draw(renderContext);
 
-        // プレイヤーをドロー
-        plModel.Draw(renderContext);
+            // プレイヤーをドロー
+            plModel.Draw(renderContext);
+        }
 
         // レンダリングターゲットへの書き込み終了待ち
         renderContext.WaitUntilFinishDrawingToRenderTargets(1, rtArray);
 
-        // 画面に表示されるレンダリングターゲットに戻す
-        renderContext.SetRenderTarget(
-            g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-            g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-        );
+        {        
+            // 画面に表示されるレンダリングターゲットに戻す
+            renderContext.SetRenderTarget(
+                g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+                g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+            );
 
-        // 画面に表示されるレンダリングターゲットにフルスクリーン表示のスプライトを描画する
-        blurSprite.Draw(renderContext);
+            // 画面に表示されるレンダリングターゲットにフルスクリーン表示のスプライトを描画する
+            blurSprite.Draw(renderContext);
+        }
+
 
         //////////////////////////////////////
         // 絵を描くコードを書くのはここまで！！！
