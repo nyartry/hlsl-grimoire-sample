@@ -194,17 +194,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         // レンダリングターゲットとして利用できるまで待つ
         renderContext.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
 
-        {
-            // レンダリングターゲットを設定
-            renderContext.SetRenderTargetAndViewport(mainRenderTarget);
+        // レンダリングターゲットを設定
+        renderContext.SetRenderTargetAndViewport(mainRenderTarget);
 
-            // レンダリングターゲットをクリア
-            renderContext.ClearRenderTargetView(mainRenderTarget);
+        // レンダリングターゲットをクリア
+        renderContext.ClearRenderTargetView(mainRenderTarget);
 
-            // step-9 mainRenderTargetに各種モデルを描画する
-            plModel.Draw(renderContext);
-            bgModel.Draw(renderContext);
-        }
+        // step-9 mainRenderTargetに各種モデルを描画する
+        plModel.Draw(renderContext);
+        bgModel.Draw(renderContext);
+
         // レンダリングターゲットへの書き込み終了待ち
         renderContext.WaitUntilFinishDrawingToRenderTarget(mainRenderTarget);
 
@@ -212,16 +211,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         // 横ブラー用のレンダリングターゲットに変更
         // レンダリングターゲットとして利用できるまで待つ
         renderContext.WaitUntilToPossibleSetRenderTarget(xBlurRenderTarget);
-        {
-            // レンダリングターゲットを設定
-            renderContext.SetRenderTargetAndViewport(xBlurRenderTarget);
 
-            // レンダリングターゲットをクリア
-            renderContext.ClearRenderTargetView(xBlurRenderTarget);
+        // レンダリングターゲットを設定
+        renderContext.SetRenderTargetAndViewport(xBlurRenderTarget);
 
-            // 2Dを描画（mainRenderTargetのテクスチャを描画）
-            xBlurSprite.Draw(renderContext);
-        }
+        // レンダリングターゲットをクリア
+        renderContext.ClearRenderTargetView(xBlurRenderTarget);
+
+        // 2Dを描画
+        xBlurSprite.Draw(renderContext);
+
         // レンダリングターゲットへの書き込み終了待ち
         renderContext.WaitUntilFinishDrawingToRenderTarget(xBlurRenderTarget);
 
@@ -229,40 +228,36 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         // 縦ブラー用のレンダリングターゲットに変更
         // レンダリングターゲットとして利用できるまで待つ
         renderContext.WaitUntilToPossibleSetRenderTarget(yBlurRenderTarget);
-        {
-            // レンダリングターゲットを設定
-            renderContext.SetRenderTargetAndViewport(yBlurRenderTarget);
 
-            // レンダリングターゲットをクリア
-            renderContext.ClearRenderTargetView(yBlurRenderTarget);
+        // レンダリングターゲットを設定
+        renderContext.SetRenderTargetAndViewport(yBlurRenderTarget);
 
-            // 2Dを描画（xBlurRenderTargetのテクスチャを描画）
-            yBlurSprite.Draw(renderContext);
-        }
+        // レンダリングターゲットをクリア
+        renderContext.ClearRenderTargetView(yBlurRenderTarget);
+
+        // 2Dを描画
+        yBlurSprite.Draw(renderContext);
+
         // レンダリングターゲットへの書き込み終了待ち
         renderContext.WaitUntilFinishDrawingToRenderTarget(yBlurRenderTarget);
 
-        {
-            // step-12 メインレンダリングターゲットの絵をフレームバッファーにコピー
-            renderContext.SetRenderTarget(
-                g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-                g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-            );
+        // step-12 メインレンダリングターゲットの絵をフレームバッファーにコピー
+        renderContext.SetRenderTarget(
+            g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+            g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+        );
 
-            // ビューポートを指定する
-            D3D12_VIEWPORT viewport;
-            viewport.TopLeftX = 0;
-            viewport.TopLeftY = 0;
-            viewport.Width = 1280;
-            viewport.Height = 720;
-            viewport.MinDepth = 0.0f;
-            viewport.MaxDepth = 1.0f;
+        // ビューポートを指定する
+        D3D12_VIEWPORT viewport;
+        viewport.TopLeftX = 0;
+        viewport.TopLeftY = 0;
+        viewport.Width = 1280;
+        viewport.Height = 720;
+        viewport.MinDepth = 0.0f;
+        viewport.MaxDepth = 1.0f;
 
-            renderContext.SetViewportAndScissor(viewport);
-
-            //最終結果2Dを描画（yBlurRenderTargetのテクスチャを描画）
-            copyToFrameBufferSprite.Draw(renderContext);
-        }
+        renderContext.SetViewportAndScissor(viewport);
+        copyToFrameBufferSprite.Draw(renderContext);
 
         //////////////////////////////////////
         // 絵を描くコードを書くのはここまで！！！
@@ -278,9 +273,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 void InitRootSignature(RootSignature& rs)
 {
     rs.Init(D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-            D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-            D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-            D3D12_TEXTURE_ADDRESS_MODE_WRAP);
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 }
 
 /// <summary>
