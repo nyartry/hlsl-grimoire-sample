@@ -14,6 +14,7 @@ struct DirectionalLight
     Vector3  direction;
     float pad1;         // パディング
     Vector3 eyePos;     // 視点
+    float specPow;      // スペキュラの絞り
 };
 
 ///////////////////////////////////////////////////////////////////
@@ -25,9 +26,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
 
     //////////////////////////////////////
-    // ここから初期化を行うコードを記述する
+    //  ここから初期化を行うコードを記述する
     //////////////////////////////////////
-
     // ルートシグネチャを作成
     RootSignature rootSignature;
     InitRootSignature(rootSignature);
@@ -42,7 +42,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     light.color.y = 1.0f;
     light.color.z = 1.0f;
 
-    // step-1 ライトの情報に視点の座標を追加
+    // step-1 ライトの情報に視点とスペキュラの絞りを追加
+    light.eyePos = g_camera3D->GetPosition();
 
     // モデルを初期化
     ModelInitData modelInitData;
@@ -72,6 +73,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     );
 
     // step-2 ピクセルのワールド座標を記録するためのG-Bufferを作成
+    RenderTarget worldPosRT;
+    worldPosRT.Create(
+        FRAME_BUFFER_W,
+        FRAME_BUFFER_H,
+        1,
+        1,
+        DXGI_FORMAT_R32G32B32A32_FLOAT, // ワールド座標を記録するので、32ビット浮動小数点バッファを利用する
+        DXGI_FORMAT_UNKNOWN
+    );
 
     // ポストエフェクト的にディファードライティングを行うためのスプライトを初期化
     SpriteInitData spriteInitData;
@@ -85,6 +95,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     spriteInitData.m_textures[1] = &normalRT.GetRenderTargetTexture();
 
     // step-3 ディファードライティング用のテクスチャにワールド座標テクスチャを追加
+    spriteInitData.m_textures[2] = &worldPosRT.GetRenderTargetTexture();
 
     spriteInitData.m_fxFilePath = "Assets/shader/sprite.fx";
     spriteInitData.m_expandConstantBuffer = &light;
@@ -114,11 +125,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
         // ここから絵を描くコードを記述する
         //////////////////////////////////////
 
-        // レンダリングターゲットをG-Bufferに変更して書き込む
+        //レンダリングターゲットをG-Bufferに変更して書き込む
         // step-4 2番目のレンダリングターゲットにworldPosRTを追加
         RenderTarget* rts[] = {
             &albedRT,   // 0番目のレンダリングターゲット
-            &normalRT
+            &normalRT,  // 1番目のレンダリングターゲット
+            &worldPosRT // 2番目のレンダリングターゲット
         };
 
         // まず、レンダリングターゲットとして設定できるようになるまで待つ
@@ -153,7 +165,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 void InitRootSignature(RootSignature& rs)
 {
     rs.Init(D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-            D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-            D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-            D3D12_TEXTURE_ADDRESS_MODE_WRAP);
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+        D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 }
