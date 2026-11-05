@@ -30,9 +30,9 @@ struct SPSIn
 // ピクセルシェーダーからの出力
 struct SPSOut
 {
-    float4 albedo : SV_Target0;     // アルベド
-    float3 normal : SV_Target1;     // 法線
-    float3 worldPos : SV_Target2;   // ワールド座標
+    float4 albedo : SV_Target0; // アルベド
+    float3 normal : SV_Target1; // 法線
+    float3 worldPos : SV_Target2; // ワールド座標
 };
 
 // モデルテクスチャ
@@ -50,7 +50,7 @@ SPSIn VSMain(SVSIn vsIn, uniform bool hasSkin)
 
     psIn.pos = mul(mWorld, vsIn.pos); // モデルの頂点をワールド座標系に変換
 
-    // step ??? 頂点シェーダーからワールド座標を出力
+    // 頂点シェーダーからワールド座標を出力
     psIn.worldPos = psIn.pos;
 
     psIn.pos = mul(mView, psIn.pos); // ワールド座標系からカメラ座標系に変換
@@ -60,7 +60,6 @@ SPSIn VSMain(SVSIn vsIn, uniform bool hasSkin)
 
     return psIn;
 }
-
 /// <summary>
 /// モデル用のピクセルシェーダーのエントリーポイント
 /// </summary>
@@ -68,10 +67,8 @@ SPSOut PSMain(SPSIn psIn)
 {
     // G-Bufferに出力
     SPSOut psOut;
-
     // アルベドカラーを出力
     psOut.albedo = g_texture.Sample(g_sampler, psIn.uv);
-
     // 法線を出力
     psOut.normal = psIn.normal;
 
@@ -79,14 +76,16 @@ SPSOut PSMain(SPSIn psIn)
     return psOut;
 }
 
+// step-3 ライトの情報を受け取るための定数バッファーを追加
 cbuffer DirectionLight : register(b1)
 {
-    float3 ligColor;        // ライトのカラー
-    float3 ligDirection;    // ライトの方向
-    float3 eyePos;          // 視点
+    float3 ligColor; // ライトのカラー
+    float3 ligDirection; // ライトの方向
+    float3 eyePos; // 視点
 };
 
-float4 PSMainForward(SPSIn psIn) : SV_Target0
+// step-4 半透明オブジェクト用のピクセルシェーダーを実装
+float4 PSMainTrans(SPSIn psIn) : SV_Target0
 {
     // フォワードレンダリング
     // 普通にライティングをする
@@ -99,31 +98,4 @@ float4 PSMainForward(SPSIn psIn) : SV_Target0
     float4 finalColor = g_texture.Sample(g_sampler, psIn.uv);
     finalColor.xyz *= lig;
     return finalColor;
-}
-
-// step-3 トゥーン用のシェーダーを追加する
-float4 PSTone(SPSIn psIn) : SV_Target0
-{
-    float4 albedo = g_texture.Sample(g_sampler, psIn.uv);
-
-    // 【課題-1】簡易リムライトを実装してみてください
-    //          ユニティちゃんの輪郭が光るライティング
-    // ヒント-1 リムライトの実装にはカメラの方向が必要です
-    //          今回のサンプルであれば、カメラは動かないので
-    //          決め打ちでもOKです。できる人は定数バッファーで送ってみてください
-    float4 lightColor = albedo * 1.5f;
-    float3 eyeDir = float3(0.0f, 0.0f, -1.0f);      // 視線は固定にしておく（カメラを回したらアウト。ほんとは定数バッファーとかで送るべき）
-    float lim = (1.0f - dot(-psIn.normal, eyeDir)); // カメラの方向と垂直な場合逆光の強さが強くなる
-    if(lim > 0.5f)
-    {
-        // 逆光が発生している
-        albedo.xyz = lightColor.xyz;
-    }
-
-    // 【課題-2】2階調陰影を実装しなさい
-    if(dot(-ligDirection, psIn.normal) > 0.5f)
-    {
-        albedo.xyz = lightColor.xyz;
-    }
-    return albedo;
 }

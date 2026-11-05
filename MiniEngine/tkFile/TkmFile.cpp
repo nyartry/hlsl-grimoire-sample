@@ -275,8 +275,9 @@ void TkmFile::BuildMaterial(SMaterial& tkmMat, FILE* fp, const char* filePath)
 			}
 			else {
 
-				MessageBoxA(nullptr, "テクスチャのロードに失敗しました。", "エラー", MB_OK);
-				std::abort();
+				std::string errorMsg = "テクスチャのロードに失敗しました。" + texFilePath;
+				MessageBoxA(nullptr, errorMsg.c_str(), "エラー", MB_OK);
+				//std::abort();
 			}
 		}
 	};
