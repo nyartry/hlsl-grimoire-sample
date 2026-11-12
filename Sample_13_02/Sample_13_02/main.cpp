@@ -50,6 +50,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     // 人型モデルを初期化
     modelInitData.m_tkmFilePath = "Assets/modelData/sample.tkm";
     modelInitData.m_fxFilePath = "Assets/shader/model.fx";
+
+    // 追加：G-Bufferの各レンダーターゲットに合わせてPSOを設定
+    modelInitData.m_colorBufferFormat[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+    modelInitData.m_colorBufferFormat[1] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+    modelInitData.m_colorBufferFormat[2] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
     Model humanModel;
     humanModel.Init(modelInitData);
     humanModel.UpdateWorldMatrix({ 0.0f, 0.0f, 0.0f }, g_quatIdentity, g_vec3One);
@@ -158,23 +164,28 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
         // まず、レンダリングターゲットとして設定できるようになるまで待つ
         renderContext.WaitUntilToPossibleSetRenderTargets(ARRAYSIZE(rts), rts);
+
         // レンダリングターゲットを設定
         renderContext.SetRenderTargets(ARRAYSIZE(rts), rts);
         // レンダリングターゲットをクリア
         renderContext.ClearRenderTargetViews(ARRAYSIZE(rts), rts);
+
         humanModel.Draw(renderContext);
         bgModel.Draw(renderContext);
 
         // レンダリングターゲットへの書き込み待ち
         renderContext.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(rts), rts);
+        
 
-        // レンダリング先をフレームバッファーに戻してスプライトをレンダリングする
-        g_graphicsEngine->ChangeRenderTargetToFrameBuffer(renderContext);
-        // G-Bufferの内容を元にしてディファードライティング
-        defferdLightinSpr.Draw(renderContext);
+        // レンダリング先を「フレームバッファー」に戻してスプライトをレンダリングする
+        g_graphicsEngine->ChangeRenderTargetToFrameBuffer(renderContext);//renderContext.SetRenderTarget(m_currentFrameBufferRTVHandle, m_currentFrameBufferDSVHandle);
+
+        //★ G-Bufferの内容を元にしてディファードライティング
+        defferdLightinSpr.Draw(renderContext);//スプライトにすべてのディファードライティングの内容を反映して、一枚絵で移している。
 
         // step-2 深度ステンシルビューをG-Bufferを作成したときのものに変更する
         renderContext.SetRenderTarget(g_graphicsEngine->GetCurrentFrameBuffuerRTV(), rts[0]->GetDSVCpuDescriptorHandle());
+
         // 半透明オブジェクトを描画！
         sphereModel.Draw(renderContext);
 

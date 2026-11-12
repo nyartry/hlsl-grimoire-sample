@@ -1,0 +1,175 @@
+{
+  "date": "2026-11-12",
+  "gpu": "NVIDIA Quadro P620",
+  "measurement": "D3D12_QUERY_DATA_PIPELINE_STATISTICS.PSInvocations, not frame time",
+  "cases": [
+    {
+      "configuration": "Debug",
+      "view": "",
+      "baseline": {
+        "depth_reuse": false,
+        "metrics_available": true,
+        "prepass_ps_invocations": 1028316,
+        "gbuffer_ps_invocations": 1002912,
+        "forward_ps_invocations": 25404,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "primed": {
+        "depth_reuse": true,
+        "metrics_available": true,
+        "prepass_ps_invocations": 1028316,
+        "gbuffer_ps_invocations": 896543,
+        "forward_ps_invocations": 24833,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "main_ps_reduction_percent": 10.3995,
+      "hdr_images_identical": true,
+      "baseline_dds_sha256": "B9F976D1D90BD84789495C282FAB88E57550DA6DC2F5847390E6BDC94ED71A63",
+      "primed_dds_sha256": "B9F976D1D90BD84789495C282FAB88E57550DA6DC2F5847390E6BDC94ED71A63"
+    },
+    {
+      "configuration": "Debug",
+      "view": "side",
+      "baseline": {
+        "depth_reuse": false,
+        "metrics_available": true,
+        "prepass_ps_invocations": 983895,
+        "gbuffer_ps_invocations": 970221,
+        "forward_ps_invocations": 13674,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "primed": {
+        "depth_reuse": true,
+        "metrics_available": true,
+        "prepass_ps_invocations": 983895,
+        "gbuffer_ps_invocations": 908747,
+        "forward_ps_invocations": 12547,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "main_ps_reduction_percent": 6.3626,
+      "hdr_images_identical": true,
+      "baseline_dds_sha256": "97A26C9054A1F7FA4BE2906D8755376A6CF4126537FBF66BF943D1FC005D57D8",
+      "primed_dds_sha256": "97A26C9054A1F7FA4BE2906D8755376A6CF4126537FBF66BF943D1FC005D57D8"
+    },
+    {
+      "configuration": "Debug",
+      "view": "close",
+      "baseline": {
+        "depth_reuse": false,
+        "metrics_available": true,
+        "prepass_ps_invocations": 1091308,
+        "gbuffer_ps_invocations": 1002208,
+        "forward_ps_invocations": 89100,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "primed": {
+        "depth_reuse": true,
+        "metrics_available": true,
+        "prepass_ps_invocations": 1091308,
+        "gbuffer_ps_invocations": 832709,
+        "forward_ps_invocations": 88534,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "main_ps_reduction_percent": 15.5836,
+      "hdr_images_identical": true,
+      "baseline_dds_sha256": "C81418AB1ED5D370C35B01C380AADB2E43D93783F041535434D4C62FABE013AA",
+      "primed_dds_sha256": "C81418AB1ED5D370C35B01C380AADB2E43D93783F041535434D4C62FABE013AA"
+    },
+    {
+      "configuration": "Release",
+      "view": "",
+      "baseline": {
+        "depth_reuse": false,
+        "metrics_available": true,
+        "prepass_ps_invocations": 1028316,
+        "gbuffer_ps_invocations": 1002912,
+        "forward_ps_invocations": 25404,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "primed": {
+        "depth_reuse": true,
+        "metrics_available": true,
+        "prepass_ps_invocations": 1028316,
+        "gbuffer_ps_invocations": 896543,
+        "forward_ps_invocations": 24833,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "main_ps_reduction_percent": 10.3995,
+      "hdr_images_identical": true,
+      "baseline_dds_sha256": "2A4E2DE7F6E73986F087D74E43A5C705F4F729829DD23EFDAAA54CA6E77DBDD8",
+      "primed_dds_sha256": "2A4E2DE7F6E73986F087D74E43A5C705F4F729829DD23EFDAAA54CA6E77DBDD8"
+    },
+    {
+      "configuration": "Release",
+      "view": "side",
+      "baseline": {
+        "depth_reuse": false,
+        "metrics_available": true,
+        "prepass_ps_invocations": 983895,
+        "gbuffer_ps_invocations": 970221,
+        "forward_ps_invocations": 13674,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "primed": {
+        "depth_reuse": true,
+        "metrics_available": true,
+        "prepass_ps_invocations": 983895,
+        "gbuffer_ps_invocations": 908747,
+        "forward_ps_invocations": 12547,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "main_ps_reduction_percent": 6.3626,
+      "hdr_images_identical": true,
+      "baseline_dds_sha256": "2A3C6EC3226EE471159BFF6D97BB6C638E59D05ABD741E810C00369116A902F7",
+      "primed_dds_sha256": "2A3C6EC3226EE471159BFF6D97BB6C638E59D05ABD741E810C00369116A902F7"
+    },
+    {
+      "configuration": "Release",
+      "view": "close",
+      "baseline": {
+        "depth_reuse": false,
+        "metrics_available": true,
+        "prepass_ps_invocations": 1091308,
+        "gbuffer_ps_invocations": 1002208,
+        "forward_ps_invocations": 89100,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "primed": {
+        "depth_reuse": true,
+        "metrics_available": true,
+        "prepass_ps_invocations": 1091308,
+        "gbuffer_ps_invocations": 832709,
+        "forward_ps_invocations": 88534,
+        "debug_errors": 0,
+        "png_hresult": 0,
+        "dds_hresult": 0
+      },
+      "main_ps_reduction_percent": 15.5836,
+      "hdr_images_identical": true,
+      "baseline_dds_sha256": "7F5306C39B338CEBC10B2CBC526253F6B4B777CDE126C20141E3128BCFB3C512",
+      "primed_dds_sha256": "7F5306C39B338CEBC10B2CBC526253F6B4B777CDE126C20141E3128BCFB3C512"
+    }
+  ]
+}
